@@ -1,13 +1,22 @@
 """Functions to parse a file containing student data."""
 
 def load_data(filename):
-    """Open the file and tokenize the data to return a set of each person"""
+    """Open the file and tokenize the data to return a dictionary of each person
+    
+    Helper function to reuse throughout the document so as to avoid repeting tokenizing the data."""
 
-    persons = set()
+    persons = []
     with open(filename) as cohort_data:
         for line in cohort_data:
-            person = line.strip().split("|")
-            persons.add(person)
+            person_data = line.strip().split("|")
+            person = {
+                'firstname': person_data[0],
+                'lastname': person_data[1],
+                'house': person_data[2],
+                'advisor': person_data[3],
+                'cohort': person_data[4],
+            }
+            persons.append(person)
         return persons
 
 def all_houses(filename):
@@ -26,8 +35,8 @@ def all_houses(filename):
     persons = load_data(filename)
     houses = set()
     for person in persons:
-        if person[-1] != "G" and person[-1] != "I": 
-            houses.add(person[2])
+        if person["cohort"] != "G" and person["cohort"] != "I": 
+            houses.add(person["house"])
     return houses
 
 def students_by_cohort(filename, cohort='All'):
@@ -59,8 +68,14 @@ def students_by_cohort(filename, cohort='All'):
     """
 
     students = []
+    persons = load_data(filename)
 
-    # TODO: replace this with your code
+    for person in persons:
+
+        if person["cohort"] != 'I' and person["cohort"] != 'G' and cohort == 'All':
+            students.append('{} {}'.format(person["firstname"], person["lastname"]))
+        elif person["cohort"] != 'I' and person["cohort"] != 'G' and cohort == person["cohort"]:
+            students.append('{} {}'.format(person["firstname"], person["lastname"]))
 
     return sorted(students)
 
