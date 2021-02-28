@@ -12,6 +12,7 @@ def load_data(filename):
             person = {
                 'firstname': person_data[0],
                 'lastname': person_data[1],
+                'fullname': "{} {}".format(person_data[0], person_data[1]),
                 'house': person_data[2],
                 'advisor': person_data[3],
                 'cohort': person_data[4],
@@ -73,9 +74,9 @@ def students_by_cohort(filename, cohort='All'):
     for person in persons:
 
         if person["cohort"] != 'I' and person["cohort"] != 'G' and cohort == 'All':
-            students.append('{} {}'.format(person["firstname"], person["lastname"]))
+            students.append(person["fullname"])
         elif person["cohort"] != 'I' and person["cohort"] != 'G' and cohort == person["cohort"]:
-            students.append('{} {}'.format(person["firstname"], person["lastname"]))
+            students.append(person["fullname"])
 
     return sorted(students)
 
@@ -110,6 +111,7 @@ def all_names_by_house(filename):
     Return:
       - list[list]: a list of lists
     """
+    persons = load_data(filename)
 
     dumbledores_army = []
     gryffindor = []
@@ -119,9 +121,31 @@ def all_names_by_house(filename):
     ghosts = []
     instructors = []
 
-    # TODO: replace this with your code
+    for person in persons: 
+        if person["house"] == "Gryffindor":
+            gryffindor.append(person["fullname"])
+        elif person["house"] == "Dumbledore's Army":
+            dumbledores_army.append(person["fullname"])
+        elif person["house"] == "Hufflepuff":
+            hufflepuff.append(person["fullname"])
+        elif person["house"] == "Ravenclaw":
+            ravenclaw.append(person["fullname"])
+        elif person["house"] == "Slytherin":
+            slytherin.append(person["fullname"])
+        elif person["cohort"] == "G":
+            ghosts.append(person["fullname"])
+        elif person["cohort"] == "I":
+            instructors.append(person["fullname"])
 
-    return []
+    full_roster = [sorted(dumbledores_army), 
+                   sorted(gryffindor), 
+                   sorted(hufflepuff), 
+                   sorted(ravenclaw), 
+                   sorted(slytherin), 
+                   sorted(ghosts), 
+                   sorted(instructors)]
+    
+    return full_roster
 
 
 def all_data(filename):
@@ -145,7 +169,8 @@ def all_data(filename):
 
     all_data = []
 
-    # TODO: replace this with your code
+    persons = load_data(filename)
+    
 
     return all_data
 
