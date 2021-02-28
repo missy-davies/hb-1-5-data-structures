@@ -170,7 +170,8 @@ def all_data(filename):
     all_data = []
 
     persons = load_data(filename)
-    
+    for person in persons:
+        all_data.append((person["fullname"], person["house"], person["advisor"], person["cohort"]))
 
     return all_data
 
