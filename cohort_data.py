@@ -1,5 +1,14 @@
 """Functions to parse a file containing student data."""
 
+def load_data(filename):
+    """Open the file and tokenize the data to return a set of each person"""
+
+    persons = set()
+    with open(filename) as cohort_data:
+        for line in cohort_data:
+            person = line.strip().split("|")
+            persons.add(person)
+        return persons
 
 def all_houses(filename):
     """Return a set of all house names in the given file.
@@ -14,13 +23,12 @@ def all_houses(filename):
     Return:
       - set[str]: a set of strings
     """
-
+    persons = load_data(filename)
     houses = set()
-
-    # TODO: replace this with your code
-
+    for person in persons:
+        if person[-1] != "G" and person[-1] != "I": 
+            houses.add(person[2])
     return houses
-
 
 def students_by_cohort(filename, cohort='All'):
     """Return a list of students' full names by cohort.
