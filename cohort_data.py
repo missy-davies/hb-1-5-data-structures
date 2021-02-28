@@ -229,11 +229,11 @@ def find_duped_last_names(filename):
     lastn_dict = {}
 
     for lname in all_lastnames:
-        lastn_dict[lname] = all_lastnames.count(lname) # fills a dictionary with all last names pointint to the number of instances
+        lastn_dict[lname] = all_lastnames.count(lname) # fills a dictionary with all last names pointing to the number of instances
     
     duplicates = set()
     
-    for lname in lastn_dict:
+    for lname in lastn_dict: # finds only duplicate names and adds them to a set
         if lastn_dict[lname] > 1:
             duplicates.add(lname)
 
@@ -252,7 +252,24 @@ def get_housemates_for(filename, name):
     {'Angelina Johnson', ..., 'Seamus Finnigan'}
     """
 
-    # TODO: replace this with your code
+    persons = load_data(filename)
+
+    # find the target person's data 
+    for person in persons:
+        if name == person["fullname"]:
+            target_cohort = person["cohort"]
+            target_house = person["house"]
+            break
+    
+    housemates = set()
+    for person in persons:
+        if person["house"] == target_house and person["cohort"] == target_cohort:
+            housemates.add(person["fullname"])
+
+    housemates.remove(name)
+
+    return housemates
+
 
 
 ##############################################################################
